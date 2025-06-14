@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\BahanBakuResource\Pages;
 use App\Filament\Resources\BahanBakuResource\RelationManagers;
 use App\Models\BahanBaku;
+use Filament\Tables\Actions\DeleteAction;
 use Filament\Forms;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Actions;
@@ -77,11 +78,17 @@ class BahanBakuResource extends Resource
                 //
             ])
             ->actions([
-                EditAction::make(),
+                EditAction::make()
+                    ->hiddenLabel(),
+                DeleteAction::make()
+                    ->hiddenLabel()
+                    ->successNotification(
+                        Notification::make()
+                            ->title('Bahan Baku berhasil dihapus')
+                            ->success()
+                    ),
             ])
-            ->bulkActions([
-                DeleteBulkAction::make(),
-            ]);
+            ->bulkActions([]);
     }
 
     public static function getRelations(): array

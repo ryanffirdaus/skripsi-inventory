@@ -17,7 +17,7 @@ class BahanBaku extends Model
         'nama',
         'satuan',
         'stok',
-        'rop', // reorder point
+        'rop',
         'eoq',
         'safety_stock',
         'lead_time',
