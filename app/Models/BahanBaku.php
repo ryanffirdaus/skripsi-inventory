@@ -33,31 +33,4 @@ class BahanBaku extends Model
     {
         return $this->hasMany(BahanProduksi::class);
     }
-
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::saving(function ($bahanBaku) {
-            // Hitung EOQ
-            if ($bahanBaku->permintaan_per_tahun && $bahanBaku->biaya_pemesanan && $bahanBaku->biaya_penyimpanan) {
-                $bahanBaku->eoq = round(sqrt((2 * $bahanBaku->permintaan_per_tahun * $bahanBaku->biaya_pemesanan) / $bahanBaku->biaya_penyimpanan));
-            }
-
-            // Hitung Safety Stock
-            if ($bahanBaku->penggunaan_harian_maks && $bahanBaku->lead_time_maks && $bahanBaku->penggunaan_harian_rata2 && $bahanBaku->lead_time) {
-                $bahanBaku->safety_stock = round(($bahanBaku->penggunaan_harian_maks * $bahanBaku->lead_time_maks) - ($bahanBaku->penggunaan_harian_rata2 * $bahanBaku->lead_time));
-            }
-
-            // Hitung ROP
-            if ($bahanBaku->penggunaan_harian_rata2 && $bahanBaku->lead_time) {
-                $bahanBaku->rop = round(($bahanBaku->penggunaan_harian_rata2 * $bahanBaku->lead_time) + $bahanBaku->safety_stock);
-            }
-        });
-
-        static::saved(function ($bahanBaku) {
-            session()->flash('success', 'Perhitungan EOQ, Safety Stock, dan ROP berhasil dilakukan!');
-            $bahanBaku->notify(new BahanBakuNotification($bahanBaku));
-        });
-    }
 }

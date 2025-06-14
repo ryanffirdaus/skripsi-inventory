@@ -46,9 +46,6 @@ class BahanBakuResource extends Resource
                 TextInput::make('lead_time_maks')->numeric(),
                 TextInput::make('penggunaan_harian_rata2')->numeric(),
                 TextInput::make('penggunaan_harian_maks')->numeric(),
-                TextInput::make('rop')->label('Reorder Point')->numeric()->disabled(),
-                TextInput::make('eoq')->label('EOQ')->numeric()->disabled(),
-                TextInput::make('safety_stock')->label('Safety Stock')->numeric()->disabled(),
             ]);
     }
 
@@ -56,12 +53,25 @@ class BahanBakuResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('kode'),
-                TextColumn::make('nama'),
-                TextColumn::make('stok'),
-                TextColumn::make('safety_stock'),
-                TextColumn::make('rop'),
-                TextColumn::make('eoq'),
+                TextColumn::make('kode')
+                    ->label('Kode Bahan Baku')
+                    ->sortable()
+                    ->searchable(),
+                TextColumn::make('nama')
+                    ->label('Nama Bahan Baku')
+                    ->sortable()
+                    ->searchable(),
+                TextColumn::make('satuan')
+                    ->label('Satuan'),
+                TextColumn::make('stok')
+                    ->label('Stok')
+                    ->sortable(),
+                TextColumn::make('rop')
+                    ->label('Reorder Point'),
+                TextColumn::make('eoq')
+                    ->label('Economic Order Quantity'),
+                TextColumn::make('safety_stock')
+                    ->label('Safety Stock'),
             ])
             ->filters([
                 //
