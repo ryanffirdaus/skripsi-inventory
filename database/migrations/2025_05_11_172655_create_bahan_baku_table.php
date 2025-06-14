@@ -29,7 +29,7 @@ return new class extends Migration
             $table->float('penggunaan_harian_rata2')->nullable();
             $table->float('penggunaan_harian_maks')->nullable();
             $table->integer('lead_time_maks')->nullable();
-
+            $table->softDeletes();
             $table->timestamps();
         });
     }
